@@ -77,6 +77,11 @@ class ProblemSolutions {
      *      Input: [4,1,5], [3,2]
      *      Output: 1 2 3 4 5
      *
+     * This method 
+     * 1) joins array A & B into a single array, 
+     * 2) sorts the single array in ascending order (from smallest to largerst) 
+     * 3) returns the sorted array
+     *
      * @param array1    - Input array 1
      * @param array2    - Input array 2
      * @return          - Sorted array with all elements in A and B.
