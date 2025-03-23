@@ -46,6 +46,12 @@ class ProblemSolutions {
      *      Input: [1,7,3,10,34,5,8], 4
      *      Output: 7
      *
+     * 1st step is to arrage Array A in descending order (from largest to smallest)
+     * This would result in: [34, 10, 8, 7, 5, 3, 1]
+     * 
+     * 2nd step is returning the k-th max. element in the array which will be k-1 (bc indices start at 0)
+     * The interger k was 4 --> 4-1 = 3 and the third element of the array is 7
+     *
      * @param array - Array of integers
      * @param k     - the kth maximum element
      * @return      - the value in the array which is the kth maximum value
