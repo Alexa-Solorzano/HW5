@@ -22,9 +22,13 @@ class ProblemSolutions {
      *      Input: [1,50,55,80,90], [55,90, 99]
      *      Output: false
      *
+     * The method will return TRUE if ALL THE ELEMENTS IN ARRAY B ARE FOUND IN ARRAY A
+     * The method will return FALSE if ANY ELEMENT IN ARRAY B IS NOT FOUND IN ARRAY A
+     *
      * The solution time complexity must NOT be worse than O(n).
      * For the solution, use a Hash Table.
-     *
+     * Using a Hash Table is smart because it lets us do constant-time look-up O(1) thanks to the hashing function 
+     * 
      * @param list1 - Input array A
      * @param list2 - input array B
      * @return      - returns boolean value B is a subset of A.
