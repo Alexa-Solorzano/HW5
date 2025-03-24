@@ -102,17 +102,18 @@ class ProblemSolutions {
      */
 
     public int findKthLargest(int[] array, int k) {
+        //initialize minHeap to store the k largest elements 
         PriorityQueue<Integer> minHeap = new PriorityQueue<>(k);
-
+        //iterate over the array
         for(int i = 0; i < array.length; i++){
-            minHeap.add(array[i]);
-
+            minHeap.add(array[i]); //add the current element into the heap
+            //if the heap size exceeds k,
             if(minHeap.size() > k) {
-                minHeap.poll();
+                minHeap.poll(); //remove the smallest element 
             }
         }
 
-        return minHeap.peek();
+        return minHeap.peek(); //return the root of the minheap 
     }
 
         
