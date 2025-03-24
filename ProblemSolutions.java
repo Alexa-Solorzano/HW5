@@ -91,16 +91,31 @@ class ProblemSolutions {
      * Pseudocode: 
      * Initialize a new minHeap with the size of k
      * 
-     * for 
+     * for each element in the array{
+     * add the element into the minHeap
+     *
+     * In order to maintain the heap size we have to check the size of the heap:
+     * if the size of the minHeap exceeds k
+     * remove the smallest element (.poll()) to ensure the heap only contains the largest k elements
+     *
+     * After it process all the array elements, the root of the minHeap will be the k-th largest element 
      */
 
     public int findKthLargest(int[] array, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>(k);
 
-        // ADD YOUR CODE HERE
+        for(int i = 0; i < array.length; i++){
+            minHeap.add(array[i]);
 
-        return 0;
+            if(minHeap.size() > k) {
+                minHeap.poll();
+            }
+        }
+
+        return minHeap.peek();
     }
 
+        
 
     /**
      * Method: sort2Arrays
