@@ -134,6 +134,19 @@ class ProblemSolutions {
      * @param array1    - Input array 1
      * @param array2    - Input array 2
      * @return          - Sorted array with all elements in A and B.
+     *
+     * Using the same logic as findKthLargest method, 
+     * Pseudocode:
+     * Initialize a new minHeap to store elements of both arrays in ascending order
+     * Add elements from array 1 to minheap
+     * Add elements from array 2 to minheap
+     * Initialize empty array which will hold the sorted combined arrays
+     * 
+     * while the minheap is not empty, 
+     * poll the smallest element from the min-heap
+     * add the smallest element to sorted array
+     * 
+     * return sorted array 
      */
 
     public int[] sort2Arrays(int[] array1, int[] array2) {
