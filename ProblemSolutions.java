@@ -150,10 +150,24 @@ class ProblemSolutions {
      */
 
     public int[] sort2Arrays(int[] array1, int[] array2) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
 
-        // ADD YOU CODE HERE
+        for(int i = 0; i < array1.length; i++)(
+            minHeap.add(array1[i]);
+        }
+    
+        for(int i = 0; i < array2.length; i++){
+            minHeap.add(array2[i]);
+        }
 
-        return null;
+        int[] sortedArray = new int[array1.length + array2.length];
+        int index = 0; 
+
+        while(!minHeap.isEmpty()){ //while the min-Heap is NOT EMPTY
+            sortedArray[index++] = minHeap.poll(); //poll the smallest element from the min-heap & add the smallest element to sortedArray
+        } //the order in which we remove the smallest element of the min-heap and add onto the array will ensure the array is in sorted order (smallest to largest)
+
+        return sortedArray;
     }
 
 }
