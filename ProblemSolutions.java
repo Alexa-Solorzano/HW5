@@ -10,6 +10,7 @@
 
 import java.util.*;
 import java.util.HashSet;
+import java.util.PriorityQueue;
 
 class ProblemSolutions {
 
@@ -80,6 +81,17 @@ class ProblemSolutions {
      * @param array - Array of integers
      * @param k     - the kth maximum element
      * @return      - the value in the array which is the kth maximum value
+     *
+     * As we learned in class, most Priority Queues are implemented as min-heap, where where smaller numbers represent higher prirorities
+     * The root of a min-heap is always the smallest element in the heap. 
+     * When you remove the root --> through .poll(), you are removing the smallest element. 
+     * To find the k-th largest element, we maintain a min-heap of size k.
+     * After adding all the elements, the root of the min-heap will contain the k-th largest element, since the heap will contain the k largest elements & the smallest one of them will be at the root.
+     *
+     * Pseudocode: 
+     * Initialize a new minHeap with the size of k
+     * 
+     * for 
      */
 
     public int findKthLargest(int[] array, int k) {
