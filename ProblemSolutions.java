@@ -9,6 +9,7 @@
  ********************************************************************/
 
 import java.util.*;
+import java.util.HashSet;
 
 class ProblemSolutions {
 
@@ -45,10 +46,20 @@ class ProblemSolutions {
      */
 
     public boolean isSubset(int list1[], int list2[]) {
+        HashSet<Integer> baseSet = new HashSet<>(); //create a HashSet to store elements of list1
 
-        // ADD YOU CODE HERE -- DON'T FORGET TO ADD YOR NAME AT TOP OF FILE
-
-        return false;
+        //add all elements from list1 to the hashSet
+        for(int i = 0; i < list1.length; i++){ //loop through each element of array A (list1)
+            baseSet.add(list1[i]); //add each element of array A to the hashset
+        }
+        //check if all elements in list2 are present in baseSet 
+        for(int i = 0; i < list2.length; i++){ //loop through each element of array B (list2)
+            if(!baseSet.contains(list2[i])){ //if any element in array A does not contain an element in array B, then return false
+                return false; 
+            }
+        }
+        //if all elements of array B are found in array A, return true
+        return true;
     }
 
 
@@ -63,8 +74,8 @@ class ProblemSolutions {
      * 1st step is to arrage Array A in descending order (from largest to smallest)
      * This would result in: [34, 10, 8, 7, 5, 3, 1]
      * 
-     * 2nd step is returning the k-th max. element in the array which will be k-1 (bc indices start at 0)
-     * The interger k was 4 --> 4-1 = 3 and the third element of the array is 7
+     * The 2nd step is returning the k-th max. element in the array which will be k-1 (bc indices start at 0)
+     * The integer k was 4 --> 4-1 = 3 and the third element of the array is 7
      *
      * @param array - Array of integers
      * @param k     - the kth maximum element
