@@ -32,6 +32,16 @@ class ProblemSolutions {
      * @param list1 - Input array A
      * @param list2 - input array B
      * @return      - returns boolean value B is a subset of A.
+     *
+     * Pseudocode: 
+     * Initialize HashSet to store all elements of array A
+     * Add all elements of list1 (array A) into HashSet
+     * Loop through list2 (array B) 
+     * check if each element is in the HashSet 
+     * If it is not found (the elements in array B is NOT found in array a), 
+     * then we return false 
+     * Otherwise, all elements in array B are also in array A,
+     * then we return true 
      */
 
     public boolean isSubset(int list1[], int list2[]) {
