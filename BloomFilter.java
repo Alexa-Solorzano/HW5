@@ -72,10 +72,10 @@ import java.lang.Math;
  */
 
 class BloomFilter {
-    private static final int MAX_HASHES = 8;
-    private static final long[] byteTable;
-    private static final long HSTART = 0xBB40E64DA205B064L;
-    private static final long HMULT = 7664345821815920749L;
+    private static final int MAX_HASHES = 8; // 8 is the max. number of hash functions that can be used
+    private static final long[] byteTable; //lookup table (created in the static block) that helps with fast hashing
+    private static final long HSTART = 0xBB40E64DA205B064L; //initial value for the hash function 
+    private static final long HMULT = 7664345821815920749L; //the multiplier for the Linear Congruential Generator (LCG) chosen to improve hash distribution
 
     /*
      * Hash provision code provided below:
@@ -115,28 +115,28 @@ class BloomFilter {
      * Fore more information:
      *      Read about 'Linear Congruential Generators' (LCG) in the Literature.
      */
-
+//initializes the byteTable with randomized values for use in hashing 
     static {
-        byteTable = new long[256 * MAX_HASHES];
-        long h = 0x544B2FBACAAF1684L;
-        for (int i = 0; i < byteTable.length; i++) {
-            for (int j = 0; j < 31; j++)
-                h = (h >>> 7) ^ h; h = (h << 11) ^ h; h = (h >>> 10) ^ h;
-            byteTable[i] = h;
+        byteTable = new long[256 * MAX_HASHES]; //allocate memory for byteTable with 2048 (256*8) entries
+        long h = 0x544B2FBACAAF1684L; //initialize h with a fixed seed value 
+        for (int i = 0; i < byteTable.length; i++) { //loop through every index in byteTable
+            for (int j = 0; j < 31; j++) //perform 31-bit scrambling for randomness 
+                h = (h >>> 7) ^ h; h = (h << 11) ^ h; h = (h >>> 10) ^ h; //right shift by 7 bits & XOR with itself, left shift by 11 bits and XOR with itself, right shift by 10 bits and XOR with itself
+            byteTable[i] = h; //store the final value in the table 
         }
     }
 
     private long hashCode(String s, int hcNo) {
-        long h = HSTART;
-        final long hmult = HMULT;
-        final long[] ht = byteTable;
-        int startIx = 256 * hcNo;
-        for (int len = s.length(), i = 0; i < len; i++) {
-            char ch = s.charAt(i);
-            h = (h * hmult) ^ ht[startIx + (ch & 0xff)];
-            h = (h * hmult) ^ ht[startIx + ((ch >>> 8) & 0xff)];
+        long h = HSTART; //start hashing with a fixed initial seed
+        final long hmult = HMULT; //use a fixed multiplier (HMULT, which is a large number) for hash mixing 
+        final long[] ht = byteTable; //reference the precomputed byte table = faster access 
+        int startIx = 256 * hcNo; //compute the starting index for the hash function. This ensures that different hash functions use different sections of the table
+        for (int len = s.length(), i = 0; i < len; i++) { //loop through each character in the string 
+            char ch = s.charAt(i); //get character at index i
+            h = (h * hmult) ^ ht[startIx + (ch & 0xff)]; //hash lower 8 bits of the character
+            h = (h * hmult) ^ ht[startIx + ((ch >>> 8) & 0xff)]; //hash upper 8 bits of the character 
         }
-        return h;
+        return h; //return the final hash value 
     }
 
     private final BitSet data;          // The hash bit map
@@ -161,29 +161,29 @@ class BloomFilter {
      */
 
     public BloomFilter(int log2noBits, int noHashes) {
-        if (log2noBits < 1 || log2noBits > 31)
+        if (log2noBits < 1 || log2noBits > 31) //ensures that log2noBits is within a valid range of 1-31
             throw new IllegalArgumentException("Invalid number of bits");
-        if (noHashes < 1 || noHashes > MAX_HASHES)
+        if (noHashes < 1 || noHashes > MAX_HASHES) //ensures that noHashes is within a valid range of 1-8
             throw new IllegalArgumentException("Invalid number of hashes");
 
-        this.data = new BitSet(1 << log2noBits);
-        this.noHashes = noHashes;
+        this.data = new BitSet(1 << log2noBits); //creates a bit array of size 2^log2noBits
+        this.noHashes = noHashes; 
         this.hashMask = (1 << log2noBits) - 1;
     }
 
-    public BloomFilter(int noItems, int bitsPerItem, int noHashes) {
-        int bitsRequired = noItems * bitsPerItem;
-        if (bitsRequired >= Integer.MAX_VALUE) {
+    public BloomFilter(int noItems, int bitsPerItem, int noHashes) { //noItems = expected # of items, bitsPerItem = number of bits to allocate per item, noHashes = number of hash functions 
+        int bitsRequired = noItems * bitsPerItem; //computes the total number of bits needed 
+        if (bitsRequired >= Integer.MAX_VALUE) { //ensures the total number of bits is within limit
             throw new IllegalArgumentException("Bloom filter would be too big");
         }
         int logBits = 4;
-        while ((1 << logBits) < bitsRequired)
+        while ((1 << logBits) < bitsRequired) //finds the smallest power of 2 that can store bitsRequired
             logBits++;
-        if (noHashes < 1 || noHashes > MAX_HASHES)
+        if (noHashes < 1 || noHashes > MAX_HASHES) //validates number of hash functions 
             throw new IllegalArgumentException("Invalid number of hashes");
-        this.data = new BitSet(1 << logBits);
+        this.data = new BitSet(1 << logBits); //creates bit array
         this.noHashes = noHashes;
-        this.hashMask = (1 << logBits) - 1;
+        this.hashMask = (1 << logBits) - 1; //stores the # of hashes and bit mask
     }
 
 
@@ -197,10 +197,10 @@ class BloomFilter {
      */
 
     public void add(String s) {
-        for (int n = 0; n < noHashes; n++) {
-            long hc = hashCode(s, n);
-            int bitNo = (int) (hc) & this.hashMask;
-            data.set(bitNo);
+        for (int n = 0; n < noHashes; n++) { //loops through each of the k hash functions 
+            long hc = hashCode(s, n); //computes a 64-bit hash value using the hashCode function (n helps ensure each hash function generates a different result
+            int bitNo = (int) (hc) & this.hashMask;//maps hash value to a valid bit position in the bloom filter 
+            data.set(bitNo); //set the corresponding bit in the BitSet to 1 to mark that the string exists in the bloom filter 
         }
     }
 
