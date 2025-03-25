@@ -9,8 +9,8 @@
  ********************************************************************/
 
 import java.util.*;
-import java.util.HashSet;
-import java.util.PriorityQueue;
+//import java.util.HashSet;
+//import java.util.PriorityQueue;
 
 class ProblemSolutions {
 
@@ -152,7 +152,7 @@ class ProblemSolutions {
     public int[] sort2Arrays(int[] array1, int[] array2) {
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
 
-        for(int i = 0; i < array1.length; i++)(
+        for(int i = 0; i < array1.length; i++){
             minHeap.add(array1[i]);
         }
     
