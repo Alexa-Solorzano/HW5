@@ -213,18 +213,32 @@ class BloomFilter {
      * false if not in the set, else true if most probably in the set.
      *
      * @param boolean - false if not in set, else true for most probably in set
+     * HINT: the bitmap is the private class variable 'data', and it is
+     * of type BitSet (Java class BitSet). See Oracle documentation for
+     * this class on available methods. You can also see how method 'add' in this class uses the object.
+     *
+     * Per the hint, 
+     * the add method loops through each hash function, calculates a hash, maps it to a bit position, and set the bit in data
+     * the difference between add and contains is that contains checks if the bits were already set 
+     * we can follow the same process/code as add method except we add an if statement to check if the bit is in the set
+     * data used .set(int bitIndex)
+     * according to the oracle documentation, another method we can use is .get(int bitIndex) which returns the value of the bit with the specified index.
+     * If(any bit is not set --->the element is not in the set)
+     *  return false; 
+     * otherwise, 
+     * return true;
      */
 
     public boolean contains(String s) {
-
-        // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME AT TOP OF FILE
-        //
-        // HINT: the bitmap is the private class variable 'data', and it is
-        // of type BitSet (Java class BitSet). See Oracle documentation for
-        // this class on available methods. You can also see how method 'add'
-        // in this class uses the object.
-
-        return false;
+        for (int n = 0; n < noHashes; n++) { //loops through each of the k hash functions 
+            long hc = hashCode(s, n); //computes a 64-bit hash value using the hashCode function (n helps ensure each hash function generates a different result
+            int bitNo = (int) (hc) & this.hashMask;//maps hash value to a valid bit position in the bloom filter 
+            if(!data.get(bitNo)){
+               return false;
+            }
+        }
+             
+        return true;
     }
 
 
